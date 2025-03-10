@@ -56,5 +56,35 @@ namespace ItRoots.Business.Services
             var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
             return Convert.ToBase64String(bytes);
         }
+
+        public async Task DeleteUserAsync(int id)
+        {
+            // (Optional) You can first verify the user exists:
+            var existingUser = await _repo.GetUserByIdAsync(id);
+            if (existingUser == null)
+                throw new Exception("User not found.");
+
+            // Then call repo to delete:
+            await _repo.DeleteUserAsync(id);
+        }
+
+        public async Task<User?> GetUserByIdAsync(int id)
+        {
+            // (Optional) You can first verify the user exists:
+            var existingUser = await _repo.GetUserByIdAsync(id);
+
+            if (existingUser == null)
+                throw new Exception("User not found.");
+
+            // Then call repo to delete:
+            return existingUser;
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        {
+            return await _repo.GetAllUsersAsync();
+        }
+
+
     }
 }

@@ -13,6 +13,11 @@ namespace ItRoots.Data.Repositories
         Task<User?> GetUserByUsernameAsync(string username);
         Task<User?> GetUserByVerificationTokenAsync(Guid token);
         Task UpdateUserAsync(User user);
+        Task<User?> GetUserByIdAsync(int id);
+        Task<IEnumerable<User>> GetAllUsersAsync();
+        Task DeleteUserAsync(int id);
+
+
 
 
     }

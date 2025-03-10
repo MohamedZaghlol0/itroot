@@ -12,7 +12,11 @@ namespace ItRoots.Business.Services
     {
         Task<int> RegisterAsync(User user);
         Task<User?> GetUserByUsernameAsync(string username);
+        Task<User?> GetUserByIdAsync(int id);
         Task<bool> VerifyEmailAsync(Guid token);
         string HashPassword(string password);
+        Task DeleteUserAsync(int id);
+        Task<IEnumerable<User>> GetAllUsersAsync();
+
     }
 }

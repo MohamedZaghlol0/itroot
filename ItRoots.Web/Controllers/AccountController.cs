@@ -146,5 +146,23 @@ namespace ItRoots.Web.Controllers
             // but for quick 'Yes/No', a simple contains check often suffices:
             return result.Contains("\"success\": true");
         }
+
+        // GET: /Users/Delete/5
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+                return NotFound();
+
+            return View(user); // Expects Views/Users/Delete.cshtml
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _userService.DeleteUserAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
