@@ -1,0 +1,14 @@
+﻿@model ItRoots.Data.Models.User
+
+@{
+    ViewData["Title"] = "Delete User";
+}
+
+<h2>Delete User</h2>
+
+<p>Are you sure you want to delete user "@Model.Username"?</p>
+
+<form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+    <a asp-action="Dashboard" class="btn btn-secondary">Cancel</a>
+</form>

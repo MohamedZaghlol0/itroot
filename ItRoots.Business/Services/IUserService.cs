@@ -17,6 +17,8 @@ namespace ItRoots.Business.Services
         string HashPassword(string password);
         Task DeleteUserAsync(int id);
         Task<IEnumerable<User>> GetAllUsersAsync();
+        Task UpdateUserAsync(User user);
+
 
     }
 }

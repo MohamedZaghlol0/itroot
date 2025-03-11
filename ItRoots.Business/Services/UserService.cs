@@ -85,6 +85,43 @@ namespace ItRoots.Business.Services
             return await _repo.GetAllUsersAsync();
         }
 
+        public async Task UpdateUserAsync(User updatedUser)
+        {
+            // Retrieve the existing user from the repository
+            var existingUser = await _repo.GetUserByIdAsync(updatedUser.Id);
+            if (existingUser == null)
+            {
+                throw new Exception("User not found.");
+            }
+
+            // Update only the fields that are provided in the update form
+            existingUser.FullName = updatedUser.FullName;
+            existingUser.Username = updatedUser.Username;
+            existingUser.Email = updatedUser.Email;
+            existingUser.Role = updatedUser.Role;
+            existingUser.IsVerified = updatedUser.IsVerified;
+
+            // Optionally update Phone if your modal had that field.
+            // For example, if you add a phone input in the modal:
+            // existingUser.Phone = updatedUser.Phone;
+
+            // Do not update PasswordHash unless a new password is provided.
+            // (Assuming your modal does NOT have a password field.)
+            if (!string.IsNullOrWhiteSpace(updatedUser.PasswordHash))
+            {
+                // If a new password is provided, hash and update it.
+                existingUser.PasswordHash = HashPassword(updatedUser.PasswordHash);
+            }
+            // Otherwise, preserve the existing PasswordHash.
+
+            // Likewise, you can decide what to do with VerificationToken:
+            // For now, we leave it unchanged.
+
+            // Now pass the updated existing user to the repository update
+            await _repo.UpdateUserAsync(existingUser);
+        }
+
+
 
     }
 }

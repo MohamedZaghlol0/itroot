@@ -1,0 +1,124 @@
+﻿@model IEnumerable<ItRoots.Data.Models.User>
+
+@{
+    ViewData["Title"] = "Manage Users";
+}
+
+<h2>Manage Users</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add New User</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>FullName</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Is Verified?</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.FullName</td>
+                <td>@user.Username</td>
+                <td>@user.Email</td>
+                <td>@user.Role</td>
+                <td>@user.IsVerified</td>
+                <td>
+                    <!-- Edit button using Bootstrap 5 data-bs-* attributes -->
+                    <button type="button"
+                            class="btn btn-sm btn-warning edit-button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editUserModal"
+                            data-id="@user.Id"
+                            data-fullname="@user.FullName"
+                            data-username="@user.Username"
+                            data-email="@user.Email"
+                            data-role="@user.Role"
+                            data-isverified="@user.IsVerified">
+                        Edit
+                    </button>
+
+                    <!-- Delete button with confirm dialog -->
+                    <a asp-action="Delete"
+                       asp-route-id="@user.Id"
+                       class="btn btn-sm btn-danger"
+                       onclick="return confirm('Are you sure you want to delete @user.Username?');">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal for editing user -->
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="UpdateUser" method="post" id="editUserForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Hidden field for the Id -->
+                    <input type="hidden" id="UserId" name="Id" />
+                    <div class="mb-3">
+                        <label for="FullName" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="FullName" name="FullName" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="Username" name="Username" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="Email" name="Email" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Role" class="form-label">Role</label>
+                        <input type="text" class="form-control" id="Role" name="Role" required />
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="IsVerified" name="IsVerified">
+                        <label class="form-check-label" for="IsVerified">Is Verified?</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.edit-button').on('click', function () {
+                var button = $(this);
+                var id = button.data('id');
+                var fullname = button.data('fullname');
+                var username = button.data('username');
+                var email = button.data('email');
+                var role = button.data('role');
+                var isVerified = button.data('isverified');
+
+                $('#UserId').val(id);
+                $('#FullName').val(fullname);
+                $('#Username').val(username);
+                $('#Email').val(email);
+                $('#Role').val(role);
+                $('#IsVerified').prop('checked', isVerified === true || isVerified === "true");
+            });
+        });
+    </script>
+}

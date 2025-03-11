@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Login Success";
+}
+
+<h2>Login Success</h2>
+
+<p>Here is your JWT token (for dev/testing purposes only):</p>
+<div style="word-wrap: break-word; max-width: 600px;">
+    @ViewBag.Token
+</div>
+
+<p>
+    Use it in requests as:
+    <code>Authorization: Bearer &lt;token&gt;</code>
+</p>

@@ -50,21 +50,22 @@ namespace ItRoots.Data.Repositories
         public async Task UpdateUserAsync(User user)
         {
             var sql = @"
-            UPDATE Users
-            SET 
-                FullName = @FullName,
-                Username = @Username,
-                PasswordHash = @PasswordHash,
-                Email = @Email,
-                Phone = @Phone,
-                Role = @Role,
-                IsVerified = @IsVerified,
-                VerificationToken = @VerificationToken
-            WHERE 
-                Id = @Id
-        ";
+        UPDATE Users
+        SET 
+            FullName = @FullName,
+            Username = @Username,
+            PasswordHash = @PasswordHash,
+            Email = @Email,
+            Phone = @Phone,
+            Role = @Role,
+            IsVerified = @IsVerified,
+            VerificationToken = @VerificationToken
+        WHERE 
+            Id = @Id
+    ";
             await _db.ExecuteAsync(sql, user);
         }
+
 
         public async Task DeleteUserAsync(int id)
         {
